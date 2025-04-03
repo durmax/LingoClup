@@ -1,8 +1,8 @@
 ﻿namespace SharedKernel;
 
-public sealed record ValidationError : MyError
+public sealed record ValidationError : Error
 {
-    public ValidationError(MyError[] errors)
+    public ValidationError(Error[] errors)
         : base(
             "Validation.General",
             "One or more validation errors occurred",
@@ -11,7 +11,7 @@ public sealed record ValidationError : MyError
         Errors = errors;
     }
 
-    public IReadOnlyList<MyError> Errors { get; }
+    public IReadOnlyList<Error> Errors { get; }
 
     public static ValidationError FromResults(IEnumerable<Result> results) =>
         new(results.Where(r => r.IsFailure).Select(r => r.Error).ToArray());
